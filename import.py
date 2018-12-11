@@ -9,29 +9,37 @@ import urllib.parse
 import numpy
 import sqlalchemy as sa
 from sqlalchemy import create_engine
-
+import pymssql
+import pymysql
 
 # read CSV file
-column_names = ['firstName','major']
+column_names = [ 'first_name', 'middle_initial', 'last_name']
 
-df = pd.read_csv('/Users/bkt5031/Desktop/pythonAngular/CommonApp_Prospect.txt', header = None, names = column_names)
+# without headers
+df = pd.read_csv('/Users/bkt5031/Desktop/pythonAngular/test.csv', header = None, names = column_names)
 print(df)
-
+# df = pd.read_csv('/Users/bkt5031/Desktop/pythonAngular/CommonApp_Prospect.txt', header = 0)
+# print(df)
+# print('Headers')
 # df = pd.read_csv('/Users/bkt5031/Desktop/pythonAngular/CommonApp_Prospect.csv', header = 0)
 # print(df)
-sql_conn = pyodbc.connect('DRIVER={ODBC Driver 13 for SQL Server}; SERVER=uao-nebula; DATABASE=Staging; uid=cfserver; pwd=cf80767468; Trusted_Connection=yes') 
+# sql_conn = pyodbc.connect('DRIVER={ODBC Driver 13 for SQL Server}; SERVER=uao-nebula; DATABASE=Staging; uid=cfserver; pwd=cf80767468; Trusted_Connection=yes') 
 save_here = 'C:/Users/bkt5031/Desktop/dirPath'
 
 filename = 'C:/CommonApp/CommonApp_Prospect.txt'
-#Creating Cursor  
-cursor = sql_conn.cursor() 
 
 # engine = create_engine('mysql://cfserver:cf80767468@myadm-sql-a02.ais.psu.edu')
 # engine = create_engine('DRIVER={ODBC Driver 13 for SQL Server}; SERVER=uao-nebula; DATABASE=Staging; Trusted_Connection=yes')
-engine = sa.create_engine('mssql+pyodbc://UAO-NEBULA/uao-nebula/STAGING')
+engine = sa.create_engine('mssql+pymssql://uao-nebula/Staging')
 with engine.connect() as conn, conn.begin():
-    df.to_sql('csv', conn, if_exists='append', index=False)
+    df.to_sql('csv', conn, if_exists='replace', index=False)
 
+# INSERT INTO csv (`Person`, `Year`, `Company`) VALUES (%s, %s, %s)'] [parameters: (('John', 2018, 'Google')
+# Creating Cursor  
+ 
+cursor = conn.cursor()
+
+ 
 
 
 #SQL Query  
@@ -42,14 +50,14 @@ SQLCommand = ("INSERT INTO [STAGING].[dbo].TalismaLeadCards([first_name], [middl
 #Processing Query  
 cursor.execute(SQLCommand)   
 #Commiting any pending transaction to the database.  
-sql_conn.commit()  
+# sql_conn.commit()  
 
-print("Data Successfully Inserted") 
+# print("Data Successfully Inserted") 
 
 # open(filename, mode='r')
 
 #closing connection  
-sql_conn.close()  
+# sql_conn.close()  
 
 
 
