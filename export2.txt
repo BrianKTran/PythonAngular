@@ -1,0 +1,2 @@
+first_name,middle_initial,last_name,address_line_1,address_line_2,address_line_3,city,state,province,country,zip,home_phone,cell_phone,email_address,date_of_birth,gender,high_school_or_college,high_school_student,college_student,prospect_type,expected_start_date
+Patrick,k,Jones,583 E Stringham Ave,583 E Stringham Ave,583 E Stringham Ave,Salt Lake City,Utah,Utah,United States of America,84106-1416,+1.801-581-6213,+1.801-581-6213,pjones@sa.utah.edu,06/06/2000,Male,450365,0,1,0,2018 or 2019
